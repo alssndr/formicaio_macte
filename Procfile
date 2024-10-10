@@ -1,0 +1,1 @@
+web: poetry run python code_base.py

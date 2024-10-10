@@ -1,0 +1,94 @@
+/* Load the custom font */
+@font-face {
+    font-family: 'MxPlusCordataPPC400';
+    src: url('WebPlus_Cordata_PPC-400.woff') format('woff'), /* Relative path */
+         url('MxPlus_Cordata_PPC-400.ttf') format('truetype'); /* Relative path */
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'MxPlusCordataPPC400', monospace; /* Use the correct custom font family name */
+    background-color: #000; /* Black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.landing-container {
+    text-align: center;
+    color: #90D64B; /* Green color for text */
+    position: relative;
+}
+
+.formicaio-logo {
+    width: 450px; /* Increased width for the logo */
+    margin-bottom: 30px;
+}
+
+.description-box {
+    background-color: #fff; /* White box background */
+    color: #000; /* Black text color */
+    padding: 30px; /* Increased padding */
+    margin: 30px auto;
+    width: 70%;
+    max-width: 700px; /* Increased max-width */
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px; /* Increased font size */
+    font-weight: bold;
+    line-height: 1.6; /* Adjusted line-height */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7); /* Stronger shadow */
+    font-family: 'MxPlusCordataPPC400', monospace; /* Apply custom font to the description box */
+}
+
+.description-text {
+    font-family: 'MxPlusCordataPPC400', monospace; /* Ensure custom font is applied */
+    font-size: 18px; /* Set font size */
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.start-btn, .tutorial-btn {
+    background-color: #000; /* Black button background */
+    color: #90D64B; /* Green text */
+    border: 2px solid #90D64B;
+    padding: 15px 30px; /* Increased padding */
+    margin: 0 15px; /* Increased margin */
+    cursor: pointer;
+    text-transform: lowercase; /* Ensures text is lowercase */
+    font-size: 20px; /* Increased font size */
+    font-family: 'MxPlusCordataPPC400', monospace; /* Apply custom font to buttons */
+}
+
+.start-btn:hover, .tutorial-btn:hover {
+    background-color: #90D64B; /* Inverts color on hover */
+    color: #000; /* Black text */
+}
+
+.ant {
+    position: absolute;
+    width: 200px; /* Increased width for the ant images */
+}
+
+.ant-left {
+    left: 0;
+    bottom: -5%;
+    transform: rotate(-20deg);
+    width: 300px;
+}
+
+.ant-right {
+    right: 0;
+    top: 15%;
+    transform: rotate(20deg);
+    width: 250px;
+}

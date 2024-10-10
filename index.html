@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORMICAIO Art Piece</title>
+    <link rel="stylesheet" href="asset/css/styles.css">
+</head>
+<body>
+    <div id="fadeOverlay"></div>
+    <div class="background"></div>
+    <div class="container">
+        <!-- Added the welcomeMessage div -->
+        <div class="welcome-message" id="welcomeMessage">
+            <p>Bzz Bzz… Welcome to FORMICAIO.</p>
+        </div>
+        
+        <div class="chat-box" id="chatBox">
+            <p id="chatMessage">Bzz Bzz…</p>
+            <div class="cursor" id="cursor"></div> <!-- Pulsating cursor -->
+        </div>
+
+        <div class="small-chat-box" id="startChatBox" style="display: none;">
+            <p>Type here to start the chat</p>
+            <!-- Input box for user to type their message -->
+            <input type="text" id="userInputField" placeholder="Type your message here...">
+            <!-- Button to send the message -->
+            <button id="sendMessageButton">Send</button>
+            <div id="chatResponse"></div> <!-- Display the chatbot's response -->
+            <!-- Input box for user to type their message -->
+            <input type="text" id="userInputField" placeholder="Type your message here...">
+            <!-- Button to send the message -->
+            <button id="sendMessageButton">Send</button>
+            <div id="chatResponse"></div> <!-- Display the chatbot's response -->
+        </div>
+    </div>
+
+    <audio id="typeSound" src="type.mp3"></audio>
+    <audio id="dingSound" src="ding.mp3"></audio>
+    
+    <script src="live_agent.js"></script>
+</body>
+</html>
