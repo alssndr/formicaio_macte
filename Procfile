@@ -1,1 +1,1 @@
-web: bash -c "curl -sSL https://install.python-poetry.org | python3 - && poetry run python code_base.py"
+web: poetry run python app.py
