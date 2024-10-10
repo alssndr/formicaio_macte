@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function sendMessageToBackend(message) {
         try {
-            const response = await fetch('http://localhost:5000/ask', {
+            const response = await fetch('https://formicaio-741a0190069d.herokuapp.com//ask', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
