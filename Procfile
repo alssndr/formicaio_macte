@@ -1,1 +1,1 @@
-web: poetry run python app.py
+web: PATH="$HOME/.local/bin:$PATH" poetry run python app.py
