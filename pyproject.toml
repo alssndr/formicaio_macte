@@ -6,7 +6,7 @@ authors = ["Matteo Gevi <matteogevi97@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8.1"
+python = "^3.11"
 flask = "^3.0.3"
 openai = "^1.51.2"
 

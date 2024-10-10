@@ -1,1 +1,1 @@
-web: python code_base.py
+web: poetry run python code_base.py
