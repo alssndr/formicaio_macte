@@ -9,7 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const fadeOverlay = document.getElementById('fadeOverlay');
     const background = document.querySelector('.background');
     
-    // Adding a new input field for typing in the white box
+    // Remove any extra input fields or manually remove them from the HTML
+
+    // Adding the large input field for typing, and styling it black
     const inputField = document.createElement('input');
     inputField.type = 'text';
     inputField.id = 'userInputField';
@@ -19,6 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
     inputField.style.padding = '10px';
     inputField.style.borderRadius = '10px';
     inputField.style.border = '1px solid #ccc';
+
+    // Make the background black and the text white
+    inputField.style.backgroundColor = 'black';
+    inputField.style.color = 'white';
     inputField.placeholder = 'Type here to start the chat...';
     startChatBox.appendChild(inputField);
 
@@ -70,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function handleUserInput() {
-        const userInput = inputField.value; // Collect user input from the white box
+        const userInput = inputField.value; // Collect user input from the large text box
         if (userInput) {
             typeWriter(`You: ${userInput}`, 0, async function() {
                 dingSound.play();
