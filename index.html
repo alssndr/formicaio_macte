@@ -10,29 +10,23 @@
     <div id="fadeOverlay"></div>
     <div class="background"></div>
     <div class="container">
-        <!-- Added the welcomeMessage div -->
-        <div class="welcome-message" id="welcomeMessage">
-            <p>Bzz Bzz… Welcome to FORMICAIO.</p>
+        <div class="image-box" id="imageBox" style="display: none;">
+            <img id="dialogImage" src="asset/css/png/slide-dialogo0.jpeg" alt="Slide 0">
         </div>
-        
+
+
         <div class="chat-box" id="chatBox">
-            <p id="chatMessage">Bzz Bzz…</p>
+            <p id="chatMessage">Bzz Bzz… <br>
+
             <div class="cursor" id="cursor"></div> <!-- Pulsating cursor -->
         </div>
-
-        <div class="small-chat-box" id="startChatBox" style="display: none;">
-            <p>Type here to start the chat</p>
-            <!-- Input box for user to type their message -->
-            <input type="text" id="userInputField" placeholder="Type your message here...">
-            <!-- Button to send the message -->
-            <button id="sendMessageButton">Send</button>
-            <div id="chatResponse"></div> <!-- Display the chatbot's response -->
-        </div>
+        <div id="userInputBox" style="display: none;">
+            <input type="text" id="userInputField" placeholder="Type your message...">
+            <button id="sendButton">Send</button>
+          </div>
     </div>
-
     <audio id="typeSound" src="type.mp3"></audio>
     <audio id="dingSound" src="ding.mp3"></audio>
-    
     <script src="live_agent.js"></script>
 </body>
 </html>

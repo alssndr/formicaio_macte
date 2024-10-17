@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORMICAIO Home</title>
+    
+    <!-- Autoplaying audio muted initially -->
+    <audio id="backgroundAudio" autoplay loop muted>
+        <source src="website_page/kinked_menu_fancy.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <link rel="stylesheet" href="asset/css/styles_landing.css"> <!-- Link to the CSS file -->
+    <link rel="icon" href="asset/css/png/logo_rotondo.png" type="image/png"> <!-- Set the favicon -->
+    
+    <script>
+        // Function to unmute the audio after user interaction
+        function unmuteAudio() {
+            var audio = document.getElementById('backgroundAudio');
+            audio.muted = false; // Unmute the audio
+            // Remove the event listeners once the interaction occurs
+            document.removeEventListener('click', unmuteAudio);
+            document.removeEventListener('scroll', unmuteAudio);
+            document.removeEventListener('keydown', unmuteAudio);
+        }
+
+        // Wait for the page to load, then add listeners for user interaction
+        window.addEventListener('load', function() {
+            document.addEventListener('click', unmuteAudio);
+            document.addEventListener('scroll', unmuteAudio);
+            document.addEventListener('keydown', unmuteAudio);
+        });
+    </script>
+</head>
+<body>
+    <!-- Landing Page Content -->
+    <div class="landing-container">
+        <img src="asset/css/png/formicaio_logo.png" alt="Formicaio Logo" class="formicaio-logo">
+        <div class="description-box">
+            <p class="description-text">Welcome to FORMICAIO. Brace yourself. Your brain is approaching the neural proximity of an insurgent mind. 
+                Through this interface, you’ll be chatting with them—me. 
+          
+        </div>
+        <div class="buttons">
+            <a href="index.html" class="start-btn">Start</a>
+            <button class="tutorial-btn">Tutorial</button>
+        </div>
+        <img src="asset/css/png/ant_left.png" alt="Ant Left" class="ant ant-left">
+        <img src="asset/css/png/ant_right.png" alt="Ant Right" class="ant ant-right">
+    </div>
+</body>
+<footer>
+    <p class="footer_text">© 2024 FORMICAIO ALPHA VERSION - Licensed under CC BY-NC-SA 4.0 - WITH THE SUPPORT OF MACTE - Museo di Arte Contemporanea di Termoli</p>
+</footer>
+</html>
