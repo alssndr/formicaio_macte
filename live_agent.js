@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     const chatBox = document.getElementById('chatBox');
     const chatMessage = document.getElementById('chatMessage');
     const cursor = document.getElementById('cursor');
@@ -6,6 +7,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const dingSound = document.getElementById('dingSound');
     const fadeOverlay = document.getElementById('fadeOverlay');
     const background = document.querySelector('.background');
+    const imageBox = document.getElementById('imageBox');
+    const dialogImage = document.getElementById('dialogImage');
+    const userInputBox = document.getElementById('userInputBox');
+    const userInputField = document.getElementById('userInputField');
+    const sendButton = document.getElementById('sendButton');
+
+    let inputCount = 0;
     const imageBox = document.getElementById('imageBox');
     const dialogImage = document.getElementById('dialogImage');
     const userInputBox = document.getElementById('userInputBox');
@@ -64,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
             chatMessage.innerHTML = text.substring(0, i + 1) + '<span aria-hidden="true"></span>';
             typeSound.play();
             setTimeout(function () {
+            setTimeout(function () {
                 typeWriter(text, i + 1, fnCallback);
             }, 50);
         } else if (typeof fnCallback === 'function') {
@@ -83,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function sendMessageToBackend(message) {
         try {
-            const response = await fetch('https://formicaio-741a0190069d.herokuapp.com/ask', {
+            const response = await fetch('http://127.0.0.1:5052/ask', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -287,6 +296,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (currentMessageIndex === messages.length) {
                         console.log("Final message displayed");
                         setTimeout(revealBackgroundAndPromptUser, 2000);
+                        console.log("Final message displayed");
+                        setTimeout(revealBackgroundAndPromptUser, 2000);
                     }
                 }, 500);
             });
@@ -301,6 +312,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+function scrollChatToBottom() {
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
 
 function scrollChatToBottom() {
     chatBox.scrollTop = chatBox.scrollHeight;
