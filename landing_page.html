@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORMICAIO Home</title>
+    <link rel="stylesheet" href="asset/css/styles_landing.css">
+    <link rel="icon" href="asset/css/png/logo_rotondo.png" type="image/png">
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const audio = document.getElementById('backgroundAudio');
+        let hasStartedPlaying = false;
+
+        function forcePlay() {
+            audio.play();
+            document.removeEventListener('click', forcePlay);
+            document.removeEventListener('touchstart', forcePlay);
+            document.removeEventListener('keydown', forcePlay);
+        }
+
+        function attemptPlay() {
+            if (!hasStartedPlaying) {
+                audio.play()
+                    .then(() => {
+                        hasStartedPlaying = true;
+                        console.log('Audio started playing');
+                    })
+                    .catch(error => {
+                        console.log('Auto-play failed:', error);
+                        // Add event listeners for user interaction
+                        document.addEventListener('click', forcePlay);
+                        document.addEventListener('touchstart', forcePlay);
+                        document.addEventListener('keydown', forcePlay);
+                    });
+            }
+        }
+
+        // Try to play immediately
+        attemptPlay();
+
+        // Try again after a short delay
+        setTimeout(attemptPlay, 1000);
+
+        // Ensure looping
+        audio.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+    });
+    </script>
+</head>
+<body>
+    <audio id="backgroundAudio" loop>
+        <source src="https://freight.cargo.site/m/F2017419567409375968264741049364/kinked_menu-FANCY.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Landing Page Content -->
+    <div class="landing-container">
+        <img src="asset/css/png/formicaio_logo.png" alt="Formicaio Logo" class="formicaio-logo">
+        <div class="description-box">
+            <p class="description-text">Welcome to FORMICAIO. Brace yourself. Your brain is approaching the neural proximity of an insurgent mind.
+             Through this interface, you'll be chatting with them — me.</p>
+        </div>
+        <div class="buttons">
+            <a href="index.html" class="start-btn">Start</a>
+            <button class="tutorial-btn">Tutorial</button>
+        </div>
+        <img src="asset/css/png/ant_left.png" alt="Ant Left" class="ant ant-left">
+        <img src="asset/css/png/ant_right.png" alt="Ant Right" class="ant ant-right">
+    </div>
+</body>
+<footer>
+    <p class="footer_text">© 2024 FORMICAIO ALPHA VERSION - Licensed under CC BY-NC-SA 4.0 - WITH THE SUPPORT OF MACTE - Museo di Arte Contemporanea di Termoli</p>
+</footer>
+</html>

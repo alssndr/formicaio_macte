@@ -1,8 +1,8 @@
 /* Load the custom font */
 @font-face {
     font-family: 'MxPlusCordataPPC400';
-    src: ('/Users/alessandrolongo/Documents/REINC/Formicaio_proposal/formicaio_code/MxPlus_Cordata_PPC-400.ttf'); 
-    src: url('WebPlus_Cordata_PPC-400.woff');
+    src: url('WebPlus_Cordata_PPC-400.woff') format('woff'),
+         url('MxPlusCordataPPC-400.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -10,6 +10,7 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: 'MxPlusCordataPPC400', monospace;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,7 +21,7 @@ body {
     position: relative;
     opacity: 0;
     animation: fadeIn 2s ease-in-out forwards;
-    cursor: url('formicazza_moventina.png') 16 16, auto; /* Custom cursor with hotspot coordinates */
+    cursor: url('png/formicazza_moventina.png') 16 16, auto;
 }
 
 .background {
@@ -30,12 +31,12 @@ body {
     width: 100%;
     height: 100%;
     background: linear-gradient(180deg, #4E6B2A 0%, #88A05E 50.5%, #ACC66A 100%),
-                url('formiche_pattern.png') center/cover no-repeat;
-    background-blend-mode: overlay;
-    z-index: -2; /* Behind the overlay */
+                url('png/pattern_camo2.png') center/cover no-repeat;
+    background-blend-mode: difference;
+    z-index: -2;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    opacity: 1; /* Initially visible, overlay will cover it */
-    transition: opacity 2s ease-in-out;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out 0.5s;
 }
 
 #fadeOverlay {
@@ -44,24 +45,28 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgb(0, 0, 0); /* Black overlay */
-    z-index: -1; /* Covers only the background */
-    opacity: 1; /* Fully opaque initially */
-    transition: opacity 2s ease-in-out; /* Smooth fade-out effect */
+    background: rgb(0,0,0);
+    background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(20,20,16,1) 45%, rgba(40,40,40,1) 100%);
+    z-index: -1;
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
 }
 
 .container {
     text-align: center;
     position: relative;
-    width: 80%;
-    max-width: 600px;
+    width: 96%;
+    max-width: 720px;
     height: auto;
-    background-color: transparent; /* Set to transparent to allow the background pattern to show */
+    background-color: transparent;
     border-radius: 15px;
-    padding: 20px;
+    padding: 24px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0);
-    border: 0px solid #8F292B; /* Added border color */
-    z-index: 10; /* On top of both background and overlay */
+    border: 0px solid #8F292B;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .container:hover {
@@ -70,72 +75,120 @@ body {
 
 .chat-box {
     position: relative;
-    width: 100%;
-    padding: 20px;
-    border-radius: 15px;
-    background-color: #1A1A1A; /* Slightly lighter black for the box */
-    background-image: url('pattern_camo.svg'); /* Overlay pattern image */
-    background-blend-mode: hard-light; /* Improved blend mode for better pattern visibility */
-    background-size: cover; /* Ensure pattern covers the entire box */
-    color: #90D64B; /* Text color */
-    font-family: 'MxPlusCordataPPC', monospace; /* Custom font */
-    font-size: 20px;
+    width: 110%;
+    padding: 24px;
+    background-color: #8F292B;
+    border-radius: 18px;
+    box-shadow: inset 0 0 12px #8F292B !important;
+    border: 0.1rem solid #000;
+    filter: drop-shadow(0.3rem 0.3rem 0.4rem rgba(0, 0, 0, 0.15));
+    font-size: 24px;
     line-height: 1.6;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Slightly stronger shadow */
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     box-sizing: border-box;
     overflow: hidden;
+    max-height: 50vh;
     text-align: left;
     transition: opacity 1s ease-in-out;
     opacity: 1;
-    text-shadow: 
-        -1px -1px 0 #000, 
-        1px -1px 0 #000, 
-        -1px 1px 0 #000, 
-        1px 1px 0 #000; /* Additional shadows for thicker stroke effect */
+    align-self: center;
+}
+
+.chat-box-inner {
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 20px;
+    margin-right: -20px;
+}
+
+.chat-box-inner::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-box-inner::-webkit-scrollbar-track {
+    background: #8F292B;
+    border: 1px solid #000;
+}
+
+.chat-box-inner::-webkit-scrollbar-thumb {
+    background-color: #90D64B;
+    border: 1px solid #000;
+
+}
+
+.chat-box-inner::-webkit-scrollbar-thumb:hover {
+    background-color: #ACC66A;
+    box-shadow: 0 0 8px #ACC66A;
+}
+
+.chat-box-inner {
+    scrollbar-width: thin;
+    scrollbar-color: #90D64B #8F292B;
 }
 
 .chat-box p {
-    font-family: MxPlusCordataPPC400; 
-    margin: 0;
-    font-size: 30px;
+    font-family: 'MxPlusCordataPPC400', monospace;
+    margin: 0 0 15px 0;
+    font-size: 29px;
     font-weight: 400;
     line-height: 1.6;
     white-space: normal;
     word-wrap: break-word;
-    -webkit-text-stroke: 1px black; /* Black stroke around text for better visibility */
+    color: #ffff;
+    text-shadow: 3px 3px 6px #90D64B,
+                 3px 3px 6px #90D64B,
+                 3px 3px 6px #90D64B;
+    animation: flicker 30s infinite alternate;
+}
+
+.image-box {
+    position: relative;
+    width: 110%;
+    padding: 24px;
+    border-radius: 18px;
+    border: 1px dashed #8F292B;
+    box-shadow: inset 0 0 12px #8F292B !important;
+    margin-top: 3vh;
+    margin-bottom: 24px;
+    max-height: 70vh;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-align: center;
+    transition: opacity 1s ease-in-out;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+.image-box img {
+    max-width: 100%;
+    border-radius: 12px;
+    border: 0.1rem solid #000;
+    filter: drop-shadow(0.3rem 0.3rem 0.4rem rgba(0, 0, 0, 0.15));
 }
 
 .small-chat-box {
     text-align: center;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 10px;
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 12px;
     background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    font-size: 18px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    font-size: 22px;
     color: #333333;
-}
-
-.skull-icon {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 50px;
-    animation: skullBreath 8s ease-in-out infinite;
 }
 
 .text-container {
     position: absolute;
-    bottom: 20px;
-    width: 60%;
-    height: 60px;
-    background-color: #4E6B2A; /* Green color from the logo */
-    border-radius: 15px;
-    padding: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    bottom: 24px;
+    width: 72%;
+    height: 72px;
+    background-color: #4E6B2A;
+    border-radius: 18px;
+    padding: 12px;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -149,20 +202,18 @@ body {
 
 .moving-text p {
     display: inline-block;
-    font-size: 36px;
+    font-size: 43px;
     font-weight: bold;
-    color: #D63D2E; /* Red from the logo */
+    color: #D63D2E;
     animation: moveText 3s linear infinite, flashText 1s infinite alternate;
 }
 
 .cursor {
     position: absolute;
-    bottom: 15px;
-    right: 15px;
-    width: 20px;
-    height: 20px;
-    background-color: #D63D2E; /* Red to match the logo */
-    clip-path: polygon(100% 50%, 0 0, 0 100%); /* Red arrow shape */
+    bottom: 18px;
+    right: 18px;
+    width: 24px;
+    height: 24px;
     animation: pulse 1s infinite;
 }
 
@@ -190,28 +241,125 @@ body {
 }
 
 @keyframes skullBreath {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
 }
 
 @keyframes moveText {
-    0% {
-        transform: translateX(100%);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
 }
 
 @keyframes flashText {
+    0% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+@keyframes flicker {
+    0% { opacity: 1; }
+    5% { opacity: 0.5; }
+    10% { opacity: 1; }
+    15% { opacity: 0.8; }
+    20% { opacity: 0.6; }
+    25% { opacity: 1; }
+    30% { opacity: 0.7; }
+    35% { opacity: 1; }
+    40% { opacity: 0.9; }
+    45% { opacity: 1; }
+    50% { opacity: 0.5; }
+    55% { opacity: 1; }
+    60% { opacity: 0.8; }
+    65% { opacity: 1; }
+    70% { opacity: 0.9; }
+    75% { opacity: 1; }
+    80% { opacity: 0.5; }
+    85% { opacity: 1; }
+    90% { opacity: 0.8; }
+    95% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+.image-box img.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.image-box img.fade-in {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}
+
+@keyframes slideIn {
     0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    0% {
+        transform: translateX(0);
         opacity: 1;
     }
     100% {
-        opacity: 0.5;
+        transform: translateX(-100%);
+        opacity: 0;
     }
+}
+
+.image-box img.slide-out {
+    animation: slideOut 1s forwards ease-in-out;
+}
+
+.image-box img.slide-in {
+    animation: slideIn 1s forwards ease-in-out;
+}
+
+#userInputBox {
+    display: flex;
+    align-items: center;
+    background-color: #8F292B;
+    border: 0.12rem solid #000; /* Increased from 0.1rem */
+    border-radius: 0.72rem; /* Increased from 0.6rem */
+    padding: 0.96rem 1.68rem; /* Increased from 0.8rem 1.4rem */
+    filter: drop-shadow(0.36rem 0.36rem 0.48rem rgba(0, 0, 0, 0.15)); /* Increased shadow */
+    margin: 18px 0; /* Increased from 15px */
+    font-family: 'MxPlusCordataPPC400', monospace;
+    font-size: 1.2rem; /* Increased from 1rem */
+    line-height: 1.44; /* Increased from 1.2 */
+    width: 120%; /* Added to increase overall width */
+    max-width: 720px; /* Added to limit maximum width if needed */
+}
+
+#userInputField {
+    width: 100%;
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'MxPlusCordataPPC400', monospace;
+    font-size: 1.2rem; /* Increased from 1rem */
+    color: black;
+    font-weight: 400;
+}
+
+#sendButton {
+    background-color: #000;
+    border: none;
+    border-radius: 0.48rem; /* Increased from 0.4rem */
+    padding: 0.6rem 1.2rem; /* Increased from 0.5rem 1rem */
+    margin-left: 12px; /* Increased from 10px */
+    cursor: pointer;
+    font-family: 'MxPlusCordataPPC400', monospace;
+    font-size: 1.08rem; /* Increased from 0.9rem */
+    color: #9dd3a1;
+    font-weight: 400;
+}
+
+#sendButton:hover {
+    background-color: #333;
 }
