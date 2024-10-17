@@ -1,4 +1,5 @@
 /* Use your custom font */
+/* Use your custom font */
 @font-face {
     font-family: 'MxPlusCordataPPC400';
     src: url('WebPlus_Cordata_PPC-400.woff') format('woff'), /* Relative path */
@@ -126,6 +127,7 @@ body {
 
 .description-text {
     color: #ffff;
+    filter: drop-shadow(0.3rem 0.3rem 0.4rem rgba(0, 0, 0, 0.15));
     font-size: 1.5rem;
     text-shadow: 0 0 5px #90D64B, /* Soft green glow */
                  0 0 10px #90D64B, /* Larger soft green glow */
@@ -164,7 +166,7 @@ body {
     cursor: pointer;
     font-size: 1rem; /* Smaller font size for retro style */
     color: black;
-    font-weight: 400;
+    font-weight: bolder;
     font-family: 'MxPlusCordataPPC400', monospace; /* Apply custom font */
     line-height: 1.2;
     text-decoration: none;

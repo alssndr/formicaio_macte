@@ -200,6 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         fadeTransition(() => {
             typeWriter(messages[currentMessageIndex], 0, function () {
+            typeWriter(messages[currentMessageIndex], 0, function () {
                 dingSound.play();
                 chatBox.classList.add('shake');
                 setTimeout(() => {
@@ -304,6 +305,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 }, 500);
             });
         });
+    }
+
+    cursor.addEventListener('click', handleInteraction);
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && !userInputBox.contains(document.activeElement)) {
+            handleInteraction();
+        }
     }
 
     cursor.addEventListener('click', handleInteraction);
