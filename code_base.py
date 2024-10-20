@@ -15,7 +15,8 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    # Fix the reference to the template file
+    return render_template("landing_page.html")
 
 @app.route("/ask", methods=["POST"])
 def ask():
@@ -39,18 +40,18 @@ def ask():
                  Don't do lists often!
                  you refer to strategies of sabotage and practices of counter-infrastructure for workers
                  write max 3 paragraphs and give points to your interlocutor for continuing the conversation asking questions often at the end. it must feel like a real conversation.
-                 Sometimes you use also write 2 paragraphs
+                 Sometimes you use also write 2 paragraphs.
                  """},
                 {"role": "user", "content": user_input},
             ],
             max_tokens=150
         )
         # Correct access of message content
-        return jsonify({"response": response.choices[0].message.content.strip()})
+        return jsonify({"response": response.choices[0].message['content'].strip()})
     except Exception as e:
         # Return the error as a response for debugging
         return jsonify({"response": f"Error: {str(e)}"})
 
 if __name__ == "__main__":
-    # Run Flask on port 5050
+    # Run Flask on port 5000 or the environment's port
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
