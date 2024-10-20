@@ -11,11 +11,11 @@ app = Flask(__name__,
             template_folder='.',  # Where index.html and other templates are located
             static_folder='asset'  # Where CSS and JS files are located
            )
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("landing_page.html")
 
 @app.route("/ask", methods=["POST"])
 def ask():
