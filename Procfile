@@ -1,1 +1,1 @@
-web: python code_base.py
+web: gunicorn code_base:app
