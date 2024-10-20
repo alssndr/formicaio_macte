@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function sendMessageToBackend(message) {
         try {
-            const response = await fetch('http://127.0.0.1:5005/ask', {
+            const response = await fetch('http://127.0.0.1:5000/ask', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
