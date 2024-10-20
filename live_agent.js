@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const messages = [
         "Bzz... Bzz..",
-        "Now it's time for you to talk."
+        "How do you feel about your work?" // New message
     ];
 
     let currentMessageIndex = 0;
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function sendMessageToBackend(message) {
         try {
-            const response = await fetch('http://127.0.0.1:5052/ask', {
+            const response = await fetch('http://127.0.0.1:5005/ask', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
