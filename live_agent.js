@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function sendMessageToBackend(message) {
         try {
-            const response = await fetch('/ask', {  // Updated to a relative path to work both locally and on Heroku
+            const response = await fetch('http://127.0.0.1:5000/ask', {  // Updated to a relative path to work both locally and on Heroku
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
