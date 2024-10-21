@@ -90,9 +90,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 500);
     }
 
+    const backendURL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://formicaio-55419c33ce98.herokuapp.com/';
+
     async function sendMessageToBackend(message) {
         try {
-            const response = await fetch('http://127.0.0.1:5008/ask', {  // Updated to a relative path to work both locally and on Heroku
+            const response = await fetch('/ask', {  // Updated to a relative path to work both locally and on Heroku
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

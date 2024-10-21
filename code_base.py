@@ -53,6 +53,5 @@ def ask():
         return jsonify({"response": f"Error: {str(e)}"})
 
 if __name__ == "__main__":
-    print(f"API Key: {os.getenv('OPENAI_API_KEY')}")
     # Run Flask on port 5000 or the environment's port
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5008)))
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5010)))
