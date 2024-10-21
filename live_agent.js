@@ -16,6 +16,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const messages = [
         "Bzz... Bzz..",
+        "A dissonant whisper brushes against your ear, like it’s drifting in from somewhere distant — just behind you, out of sight.",
+        "A dissonant whisper brushes against your ear, like it’s drifting in from somewhere distant — just behind you, out of sight.",
+        "It’s a murmur and a call all at once, threading through your thoughts, making it hard to think straight.",
+        "The sound twists, loops, begins to take shape—a spectral melody winding in on itself. And then, without warning, a voice speaks inside your head.",
+        "\"I’m the Agent, the one they sent from the Formicaio.\"",
+        "\"Yeah, I know, it’s probably a strange word to you— It might sound like it’s borrowed from a romance language, but in truth, it doesn’t belong to any single tongue or nation.\"",
+        "Now it's time for you to talk.",
         "How do you feel about your work?" // New message
     ];
 
@@ -44,9 +51,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 500);
     }
 
+    const backendURL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://formicaio-55419c33ce98.herokuapp.com/';
+
     async function sendMessageToBackend(message) {
         try {
-            const response = await fetch('http://127.0.0.1:5008/ask', {  // Updated to a relative path to work both locally and on Heroku
+            const response = await fetch('/ask', {  // Updated to a relative path to work both locally and on Heroku
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
