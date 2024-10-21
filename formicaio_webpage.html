@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORMICAIO Experience</title>
+    
+    <!-- Autoplaying audio muted initially -->
+    <audio id="backgroundAudio" autoplay loop muted>
+        <source src="website_page/kinked_menu_fancy.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- CSS files for both landing page and chatbot -->
+    <link rel="stylesheet" href="asset/css/styles_landing.css">
+    <link rel="stylesheet" href="asset/css/styles.css">
+    <link rel="icon" href="asset/css/png/logo_rotondo.png" type="image/png"> <!-- Set the favicon -->
+    
+    <script>
+        // Function to unmute the audio after user interaction
+        function unmuteAudio() {
+            var audio = document.getElementById('backgroundAudio');
+            audio.muted = false; // Unmute the audio
+            // Remove the event listeners once the interaction occurs
+            document.removeEventListener('click', unmuteAudio);
+            document.removeEventListener('scroll', unmuteAudio);
+            document.removeEventListener('keydown', unmuteAudio);
+        }
+
+        // Wait for the page to load, then add listeners for user interaction
+        window.addEventListener('load', function() {
+            document.addEventListener('click', unmuteAudio);
+            document.addEventListener('scroll', unmuteAudio);
+            document.addEventListener('keydown', unmuteAudio);
+        });
+    </script>
+</head>
+<body>
+    <!-- Landing Page Section -->
+    <div class="landing-container" id="landingPage">
+        <img src="asset/css/png/formicaio_logo.png" alt="Formicaio Logo" class="formicaio-logo">
+        <div class="description-box">
+            <p class="description-text">Welcome to FORMICAIO. Brace yourself. Your brain is approaching the neural proximity of an insurgent mind. 
+                Through this interface, you’ll be chatting with them—me.
+            </p>
+        </div>
+        <div class="buttons">
+            <button class="start-btn" id="startChatBtn">Start</button>
+            <button class="tutorial-btn">Tutorial</button>
+        </div>
+        <img src="asset/css/png/ant_left.png" alt="Ant Left" class="ant ant-left">
+        <img src="asset/css/png/ant_right.png" alt="Ant Right" class="ant ant-right">
+    </div>
+
+    <!-- Chatbot Section (hidden initially) -->
+    <div class="container" id="chatbotSection" style="display: none;">
+        <div id="fadeOverlay"></div>
+        <div class="background"></div>
+
+        <div class="image-box" id="imageBox" style="display: none;">
+            <img id="dialogImage" src="asset/css/png/slide-dialogo0.jpeg" alt="Slide 0">
+        </div>
+
+        <div class="chat-box" id="chatBox">
+            <p id="chatMessage">Bzz Bzz… <br></p>
+            <div class="cursor" id="cursor"></div> <!-- Pulsating cursor -->
+        </div>
+
+        <div id="userInputBox" style="display: none;">
+            <input type="text" id="userInputField" placeholder="Type your message...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+
+    <footer>
+        <p class="footer_text">© 2024 FORMICAIO ALPHA VERSION - Licensed under CC BY-NC-SA 4.0 - WITH THE SUPPORT OF MACTE - Museo di Arte Contemporanea di Termoli</p>
+    </footer>
+
+    <!-- Audio elements -->
+    <audio id="typeSound" src="type.mp3"></audio>
+    <audio id="dingSound" src="ding.mp3"></audio>
+
+    <!-- JavaScript to toggle between sections -->
+    <script>
+        const startChatBtn = document.getElementById('startChatBtn');
+        const landingPage = document.getElementById('landingPage');
+        const chatbotSection = document.getElementById('chatbotSection');
+
+        // Hide landing page and show chatbot on "Start" button click
+        startChatBtn.addEventListener('click', function() {
+            landingPage.style.display = 'none';  // Hide landing page
+            chatbotSection.style.display = 'block';  // Show chatbot section
+        });
+    </script>
+
+    <!-- Include the chatbot script -->
+    <script src="live_agent.js"></script>
+</body>
+</html>

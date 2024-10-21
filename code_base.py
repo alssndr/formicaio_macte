@@ -16,7 +16,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 @app.route("/")
 def index():
     # Fix the reference to the template file
-    return render_template("index.html")
+    return render_template("formicaio_webpage.html")
 
 @app.route("/ask", methods=["POST"])
 def ask():
@@ -55,4 +55,4 @@ def ask():
 if __name__ == "__main__":
     print(f"API Key: {os.getenv('OPENAI_API_KEY')}")
     # Run Flask on port 5000 or the environment's port
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5005)))
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5008)))
