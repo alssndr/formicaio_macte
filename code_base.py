@@ -16,7 +16,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 @app.route("/")
 def index():
     # Fix the reference to the template file
-    return render_template("landing_page.html")
+    return render_template("index.html")
 
 @app.route("/ask", methods=["POST"])
 def ask():
@@ -47,11 +47,12 @@ def ask():
             max_tokens=150
         )
         # Correct access of message content
-        return jsonify({"response": response.choices[0].message['content'].strip()})
+        return jsonify({"response": response.choices[0].message.content.strip()})
     except Exception as e:
         # Return the error as a response for debugging
         return jsonify({"response": f"Error: {str(e)}"})
 
 if __name__ == "__main__":
+    print(f"API Key: {os.getenv('OPENAI_API_KEY')}")
     # Run Flask on port 5000 or the environment's port
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5005)))
