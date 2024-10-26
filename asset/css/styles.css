@@ -24,20 +24,7 @@ body {
     cursor: url('png/formicazza_moventina.png') 16 16, auto;
 }
 
-.background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, #4E6B2A 0%, #88A05E 50.5%, #ACC66A 100%),
-                url('png/pattern_camo2.png') center/cover no-repeat;
-    background-blend-mode: difference;
-    z-index: -2;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out 0.5s;
-}
+
 
 #fadeOverlay {
     position: absolute;
@@ -87,42 +74,63 @@ body {
     line-height: 1.6;
     margin-bottom: 24px;
     box-sizing: border-box;
-    overflow: hidden;
-    max-height: 50vh;
-    max-height: 50vh;
     text-align: left;
     transition: opacity 1s ease-in-out;
     opacity: 1;
+    max-height: 50vh;
     align-self: center;
 }
 
+/* Chat box inner container with scroll */
 .chat-box-inner {
     height: 100%;
+    max-height: calc(50vh - 48px); /* Subtract padding */
     overflow-y: auto;
+    overflow-x: hidden;
     padding-right: 20px;
     margin-right: -20px;
+    scrollbar-width: thin;
+    scrollbar-color: #90D64B #8F292B;
+
+    font-family: 'MxPlusCordataPPC400', monospace;
+    font-size: 29px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #9dd3a1;
+    text-shadow:  1px 1px 2px #000000,
+                    1px 1px 2px #000000,
+                     1px 1px 2px #000000; /* Even larger soft green glow */
+    animation: flicker 30s  alternate; /* Flicker animation */
+
 }
 
+/* Webkit scrollbar styles */
 .chat-box-inner::-webkit-scrollbar {
-    width: 8px;
+    width: 12px;
+    background: transparent;
 }
 
 .chat-box-inner::-webkit-scrollbar-track {
     background: #8F292B;
     border: 1px solid #000;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    margin: 5px;
 }
 
 .chat-box-inner::-webkit-scrollbar-thumb {
-    background-color: #90D64B;
+    background: #90D64B;
     border: 1px solid #000;
-
+    border-radius: 10px;
+    box-shadow: 0 0 6px #90D64B;
 }
 
 .chat-box-inner::-webkit-scrollbar-thumb:hover {
-    background-color: #ACC66A;
-    box-shadow: 0 0 8px #ACC66A;
+    background: #ACC66A;
+    box-shadow: 0 0 8px #90D64B;
 }
 
+/* Firefox scrollbar styles */
 .chat-box-inner {
     scrollbar-width: thin;
     scrollbar-color: #90D64B #8F292B;
@@ -136,11 +144,11 @@ body {
     line-height: 1.6;
     white-space: normal;
     word-wrap: break-word;
-    color: #ffff;
-    text-shadow: 3px 3px 6px #90D64B,
-                 3px 3px 6px #90D64B,
-                 3px 3px 6px #90D64B;
-    animation: flicker 30s infinite alternate;
+    color: #9dd3a1;
+    text-shadow:  1px 1px 2px #000000,
+                    1px 1px 2px #000000,
+                     1px 1px 2px #000000; /* Even larger soft green glow */
+    animation: flicker 30s  alternate; /* Flicker animation */
 }
 
 .image-box {
@@ -239,6 +247,39 @@ body {
         opacity: 1;
         background-color: #D63D2E;
     }
+}
+
+
+@keyframes pulsate {
+    0% {
+        background-color: #90D64B;
+        box-shadow: 0 0 5px #90D64B,
+                   0 0 10px #90D64B,
+                   0 0 15px #90D64B;
+    }
+    50% {
+        background-color: rgba(144, 214, 75, 0.5); /* #90D64B with 0.5 opacity */
+        box-shadow: 0 0 10px #90D64B,
+                   0 0 20px #90D64B,
+                   0 0 30px #90D64B;
+    }
+    100% {
+        background-color: #90D64B;
+        box-shadow: 0 0 5px #90D64B,
+                   0 0 10px #90D64B,
+                   0 0 15px #90D64B;
+    }
+}
+
+.cursor {
+    position: absolute;
+    bottom: 18px;
+    right: 18px;
+    width: 24px;
+    height: 24px;
+    background-color: #90D64B;
+    animation: pulsate 2s infinite ease-in-out;
+    border-radius: 50%; /* Makes it circular */
 }
 
 @keyframes fadeIn {
@@ -426,3 +467,4 @@ body {
 #sendButton:hover {
     background-color: #333;
 }
+

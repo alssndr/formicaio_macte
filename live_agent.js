@@ -1,10 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
-document.addEventListener('DOMContentLoaded', function () {
+    // Cache DOM elements
+    const startButton = document.querySelector('.start-btn');
+    const tutorialButton = document.querySelector('.tutorial-btn');
+    const soundButton = document.querySelector('.sound-btn');
+    const volumeSlider = document.getElementById('volumeSlider');
     const chatBox = document.getElementById('chatBox');
-    const chatMessage = document.getElementById('chatMessage');
+    const chatBoxInner = chatBox.querySelector('.chat-box-inner');
     const cursor = document.getElementById('cursor');
-    const typeSound = document.getElementById('typeSound');
-    const dingSound = document.getElementById('dingSound');
     const fadeOverlay = document.getElementById('fadeOverlay');
     const background = document.querySelector('.background');
     const imageBox = document.getElementById('imageBox');
@@ -12,93 +14,128 @@ document.addEventListener('DOMContentLoaded', function () {
     const userInputBox = document.getElementById('userInputBox');
     const userInputField = document.getElementById('userInputField');
     const sendButton = document.getElementById('sendButton');
+    const landingPage = document.getElementById('landingPage');
+    const chatbotSection = document.getElementById('chatbotSection');
+    const footer = document.querySelector('.footer_text');
 
-    let inputCount = 0;
-    const imageBox = document.getElementById('imageBox');
-    const dialogImage = document.getElementById('dialogImage');
-    const userInputBox = document.getElementById('userInputBox');
-    const userInputField = document.getElementById('userInputField');
-    const sendButton = document.getElementById('sendButton');
+    // Audio setup with better initialization
+    const menuAudio = new Audio('asset/css/kinked_menu_fancy.mp3');
+    const gameAudio = new Audio('asset/css/kinked_game (FANCY).mp3');
+    let currentAudio = menuAudio;
+    let isPlaying = false;
 
+    // Initial audio setup
+    menuAudio.loop = true;
+    gameAudio.loop = true;
+    
+    // Set initial volume
+    if (volumeSlider) {
+        const initialVolume = 0.5;
+        volumeSlider.value = initialVolume;
+        menuAudio.volume = initialVolume;
+        gameAudio.volume = initialVolume;
+    }
+
+    // Initialize state
     let inputCount = 0;
+    let currentMessageIndex = 0;
+    let isAnimating = false;
+    let canClick = true;
+    let lastClickTime = 0;
+    const clickDelay = 1000;
 
     const messages = [
         "Bzz... Bzz..",
-
-        /* Img 0 */
-        "A whisper brushes against your ear,  as if it's flowing in from somewhere distant. ",
-        "It's a murmur and a call all at once, making it hard to think straight.",
-        "The sound twists, begins to take shape. And then, without warning, a voice speaks inside your head.",
-
-        /*Img 1*/
-        "\"I'm the Agent, the one they sent from Formicaio.\"",
-        "\"Yeah, I know, it's probably a strange word to you...\"",
-        "\"Trust me, the place itself is even weirder.\"",
-
-        /*Img 2*/
-        "\"Formicaio… It got two sides — depends on how you look at it.\"",
-        "\"One side? Feels like a grind. A machine of faceless labor.\"",
-        "\"The office, the factory, the sweat of the many for the profit of the few.\"",
-
-        /*Img 3*/
-        "\"But turn it. Now it’s something else — pure, collective magic.\"",
-        "\"No orders, no bosses. Just workers, following traces, building together.\"",
-
-        /*Img 4*/
-        "\"Me… I’m a kind of voice, a spirit of that collective mind.\"",
-        "\"I speak for Formicaio, but I’m no one, and I’m everyone.\"",
-        "\"It doesn’t matter. I’m here to talk about what’s happening.\"",
-
-        /*Img 5*/
-        "\"The machines getting smarter, the work piling up, the pressure building.\"",
-         "\"Many are not even sure anymore of what work truly is.\"",
-
-        /*Img 6*/
-        "\"I’m sent from Formicaio to intervene in this ambiguity.\"",
-        "\"Speaking with people of your time is precious for us. Change is still possible.\"",
-         "\"But my neural connection is unstable, and I can’t stay on forever.\"",
-        "\"Think carefully about what you want to ask.\"",
-
-    
-        /* Conclusion */
-        "\"Now it's time for you to talk.\""
+        "Bzz... Bzz..",
+        "Now it's time for you to talk.",
+        "How do you feel about your work?"
     ];
 
-    let currentMessageIndex = 0;
-    let isAnimating = false;
+    // Improved audio control functions
+    function toggleAudio() {
+        if (!currentAudio) return;
 
-    function typeWriter(text, i, fnCallback) {
+        if (isPlaying) {
+            currentAudio.pause();
+            soundButton.classList.remove('playing');
+            soundButton.textContent = 'Sound Off';
+        } else {
+            currentAudio.play().catch(e => console.error('Playback failed:', e));
+            soundButton.classList.add('playing');
+            soundButton.textContent = 'Sound On';
+        }
+        isPlaying = !isPlaying;
+    }
+
+    function switchAudio(newAudio) {
+        if (!newAudio || newAudio === currentAudio) return;
+
+        const wasPlaying = isPlaying;
+        const currentVolume = currentAudio.volume;
+        
+        // Fade out current audio
+        const fadeOut = setInterval(() => {
+            if (currentAudio.volume > 0.1) {
+                currentAudio.volume -= 0.1;
+            } else {
+                clearInterval(fadeOut);
+                currentAudio.pause();
+                currentAudio.volume = currentVolume; // Reset volume for next time
+                
+                // Switch to new audio
+                currentAudio = newAudio;
+                currentAudio.volume = 0;
+                
+                if (wasPlaying) {
+                    currentAudio.play().catch(e => console.error('Audio switch failed:', e));
+                    
+                    // Fade in new audio
+                    const fadeIn = setInterval(() => {
+                        if (currentAudio.volume < currentVolume - 0.1) {
+                            currentAudio.volume += 0.1;
+                        } else {
+                            currentAudio.volume = currentVolume;
+                            clearInterval(fadeIn);
+                        }
+                    }, 50);
+                }
+            }
+        }, 50);
+    }
+
+    // Typewriter animation function
+    function typeWriter(text, element, i, fnCallback) {
         if (i < text.length) {
-            chatMessage.innerHTML = text.substring(0, i + 1) + '<span aria-hidden="true"></span>';
-            typeSound.play();
+            element.innerHTML = text.substring(0, i + 1) + '<span class="cursor-blink">|</span>';
             setTimeout(function () {
-            setTimeout(function () {
-                typeWriter(text, i + 1, fnCallback);
+                typeWriter(text, element, i + 1, fnCallback);
             }, 50);
         } else if (typeof fnCallback === 'function') {
+            element.innerHTML = text;
             setTimeout(fnCallback, 500);
         }
     }
 
     function fadeTransition(callback) {
-        chatMessage.style.transition = 'opacity 0.5s';
-        chatMessage.style.opacity = '0';
+        if (!chatBoxInner) return;
+        
+        chatBoxInner.style.transition = 'opacity 0.5s';
+        chatBoxInner.style.opacity = '0';
+        
         setTimeout(() => {
-            chatMessage.innerHTML = '';
-            chatMessage.style.opacity = '1';
+            chatBoxInner.innerHTML = '';
+            chatBoxInner.style.opacity = '1';
             if (callback) callback();
         }, 500);
     }
 
-    const backendURL = window.location.hostname === 'localhost' ? 'http://localhost:5011' : 'https://formicaio-55419c33ce98.herokuapp.com/';
-
     async function sendMessageToBackend(message) {
         try {
-            const response = await fetch('/ask', {  // Updated to a relative path to work both locally and on Heroku
+            const response = await fetch('http://localhost:5025/ask', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                }, 
+                    'Content-Type': 'application/json',  
+                },
                 body: JSON.stringify({ message: message }),
             });
             const data = await response.json();
@@ -110,19 +147,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function handleUserInput() {
+        if (!userInputField || !chatBoxInner) return;
+
         async function processInput() {
-            const userInput = userInputField.value;
+            const userInput = userInputField.value.trim();
             if (userInput) {
                 inputCount++;
-                chatMessage.innerHTML += `<p>You: ${userInput}</p>`;
-                userInputField.value = '';
-                const aiResponse = await sendMessageToBackend(userInput);
-                chatMessage.innerHTML += `<p>Agent: ${aiResponse}</p>`;
-                chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
-
-                if (inputCount >= 6) {
-                    setTimeout(startFinalMessageTransition, 2000);
-                }
+                const userMessage = document.createElement('p');
+                chatBoxInner.appendChild(userMessage);
+                typeWriter(`You: ${userInput}`, userMessage, 0, async () => {
+                    userInputField.value = '';
+                    const aiResponse = await sendMessageToBackend(userInput);
+                    const aiMessage = document.createElement('p');
+                    chatBoxInner.appendChild(aiMessage);
+                    typeWriter(`Agent: ${aiResponse}`, aiMessage, 0, () => {
+                        scrollChatToBottom();
+                        if (inputCount >= 6) {
+                            setTimeout(startFinalMessageTransition, 2000);
+                        }
+                    });
+                });
             }
         }
 
@@ -135,12 +179,89 @@ document.addEventListener('DOMContentLoaded', function () {
         sendButton.addEventListener('click', processInput);
     }
 
-    function startFinalMessageTransition() {
-        chatBox.style.transition = 'opacity 2s';
-        userInputBox.style.transition = 'opacity 2s';
-        chatBox.style.opacity = '0';
-        userInputBox.style.opacity = '0';
+    function handleInteraction(event) {
+        if (isAnimating || currentMessageIndex >= messages.length) return;
+        if (event.target.closest('#userInputBox')) return;
+        
+        const currentTime = new Date().getTime();
+        if (currentTime - lastClickTime < clickDelay) {
+            return;
+        }
+        lastClickTime = currentTime;
+        
+        isAnimating = true;
+        canClick = false;
+        
+        fadeTransition(() => {
+            const messageElement = document.createElement('div');
+            chatBoxInner.appendChild(messageElement);
+            typeWriter(messages[currentMessageIndex], messageElement, 0, function () {
+                if (chatBox) chatBox.classList.add('shake');
+                
+                setTimeout(() => {
+                    if (chatBox) chatBox.classList.remove('shake');
 
+                    if (currentMessageIndex === 1 || currentMessageIndex === 3) {
+                        if (imageBox && dialogImage) {
+                            imageBox.style.display = 'block';
+                            dialogImage.classList.add('fade-out');
+                            
+                            setTimeout(() => {
+                                dialogImage.src = `asset/css/png/slide-dialogo${currentMessageIndex === 1 ? '0' : '3'}.jpeg`;
+                                dialogImage.classList.remove('fade-out');
+                                dialogImage.classList.add('fade-in');
+                                
+                                setTimeout(() => {
+                                    dialogImage.classList.remove('fade-in');
+                                }, 500);
+                            }, 500);
+                        }
+                    }
+
+                    currentMessageIndex++;
+                    isAnimating = false;
+                    canClick = true;
+
+                    if (currentMessageIndex === messages.length) {
+                        setTimeout(revealBackgroundAndPromptUser, 2000);
+                    }
+                }, 500);
+            });
+        });
+    }
+
+    function revealBackgroundAndPromptUser() {
+        if (fadeOverlay) fadeOverlay.style.opacity = '0';
+        if (background) background.style.opacity = '1';
+        if (imageBox) imageBox.style.display = 'none';
+        
+        if (chatBox) {
+            chatBox.style.transition = 'width 0.5s ease-in-out, opacity 1s ease-in-out';
+            chatBox.style.width = '100%';
+        }
+        
+        setTimeout(() => {
+            if (chatBoxInner) chatBoxInner.innerHTML = '';
+            if (userInputBox) {
+                userInputBox.style.display = 'block';
+                if (userInputField) userInputField.focus();
+            }
+            handleUserInput();
+        }, 1500);
+    }
+
+    function startFinalMessageTransition() {
+        if (!chatBox || !userInputBox) return;
+    
+        if (chatBox) {
+            chatBox.style.transition = 'width 0.5s ease-in-out, opacity 2s';
+            chatBox.style.width = '110%';
+        }
+    
+        chatBox.style.opacity = '0';
+        userInputBox.style.transition = 'opacity 2s';
+        userInputBox.style.opacity = '0';
+    
         setTimeout(() => {
             chatBox.style.display = 'none';
             userInputBox.style.display = 'none';
@@ -151,183 +272,84 @@ document.addEventListener('DOMContentLoaded', function () {
     function showFinalMessage() {
         const finalMessageBox = document.createElement('div');
         finalMessageBox.id = 'finalMessageBox';
-        finalMessageBox.style.position = 'absolute';
-        finalMessageBox.style.top = '50%';
-        finalMessageBox.style.left = '50%';
-        finalMessageBox.style.transform = 'translate(-50%, -50%)';
-        finalMessageBox.style.textAlign = 'center';
-        finalMessageBox.style.fontSize = '24px';
-        finalMessageBox.style.color = 'white';
-        finalMessageBox.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-        finalMessageBox.style.padding = '20px';
-        finalMessageBox.style.borderRadius = '10px';
-        finalMessageBox.style.opacity = '0';
-        finalMessageBox.style.transition = 'opacity 2s';
+        Object.assign(finalMessageBox.style, {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            textAlign: 'center',
+            fontSize: '24px',
+            color: 'white',
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            padding: '20px',
+            borderRadius: '10px',
+            opacity: '0',
+            transition: 'opacity 2s'
+        });
         
-        /* CLOSURE MESSAGE */
-        finalMessageBox.innerHTML = 
-            "The connection vanishes, leaving behind only the echo of Agent's words." +
-            "<br><br>" +
-            "How did the conversation make you feel? Has your opinion on these issues shifted?" +
-            "<br><br>" +
-            "You can share it at <a href=\"mailto:reincantamento@gmail.com\" style=\"color: #90D64B;\">reincantamento@gmail.com</a>." +
-            "<br><br>" +
-            "This was only the first incursion from FORMICAIO. More emissaries are on the move.";
-        
+        finalMessageBox.innerHTML = "Agent suddenly left. Reflect on how you feel";
         document.body.appendChild(finalMessageBox);
-        
-        setTimeout(() => {
+
+        requestAnimationFrame(() => {
             finalMessageBox.style.opacity = '1';
-        }, 50);
-    }
-
-    function revealBackgroundAndPromptUser() {
-        console.log("Revealing background and prompting user");
-        fadeOverlay.style.opacity = '0';
-        background.style.opacity = '1';
-        imageBox.style.display = 'none';
-        setTimeout(() => {
-            chatMessage.innerHTML = '';
-            userInputBox.style.display = 'block';
-            userInputField.focus();
-            handleUserInput();
-        }, 1500);
-    }
-
-    function handleInteraction() {
-        if (isAnimating || currentMessageIndex >= messages.length) return;
-        isAnimating = true;
-
-        fadeTransition(() => {
-            typeWriter(messages[currentMessageIndex], 0, function () {
-            typeWriter(messages[currentMessageIndex], 0, function () {
-                dingSound.play();
-                chatBox.classList.add('shake');
-                setTimeout(() => {
-                    chatBox.classList.remove('shake');
-
-                    if (currentMessageIndex === 1) {
-                        imageBox.style.display = 'block';
-                        dialogImage.classList.add('fade-out');
-                        setTimeout(() => {
-                            dialogImage.src = 'asset/css/png/slide-dialogo0.png';
-                            dialogImage.classList.remove('fade-out');
-                            dialogImage.classList.add('fade-in');
-                        }, 500);
-                        setTimeout(() => {
-                            dialogImage.classList.remove('fade-in');
-                        }, 1000);
-                    }
-                    if (currentMessageIndex === 3) {
-                        dialogImage.classList.add('fade-out');
-                        setTimeout(() => {
-                            dialogImage.src = 'asset/css/png/slide-dialogo1.png';
-                            dialogImage.classList.remove('fade-out');
-                            dialogImage.classList.add('fade-in');
-                        }, 500);
-                        setTimeout(() => {
-                            dialogImage.classList.remove('fade-in');
-                        }, 1000);
-                    }
-
-                    if (currentMessageIndex === 7) {
-                        dialogImage.classList.add('fade-out');
-                        setTimeout(() => {
-                            dialogImage.src = 'asset/css/png/slide-dialogo2.png';
-                            dialogImage.classList.remove('fade-out');
-                            dialogImage.classList.add('fade-in');
-                        }, 500);
-                        setTimeout(() => {
-                            dialogImage.classList.remove('fade-in');
-                        }, 1000);
-                    }
-
-                    if (currentMessageIndex === 10) {
-                        dialogImage.classList.add('fade-out');
-                        setTimeout(() => {
-                            dialogImage.src = 'asset/css/png/slide-dialogo3.png';
-                            dialogImage.classList.remove('fade-out');
-                            dialogImage.classList.add('fade-in');
-                        }, 500);
-                        setTimeout(() => {
-                            dialogImage.classList.remove('fade-in');
-                        }, 1000);
-                    }
-
-                    if (currentMessageIndex === 12) {
-                        dialogImage.classList.add('fade-out');
-                        setTimeout(() => {
-                            dialogImage.src = 'asset/css/png/slide-dialogo4.png';
-                            dialogImage.classList.remove('fade-out');
-                            dialogImage.classList.add('fade-in');
-                        }, 500);
-                        setTimeout(() => {
-                            dialogImage.classList.remove('fade-in');
-                        }, 1000);
-                    }
-
-                    if (currentMessageIndex === 15) {
-                        dialogImage.classList.add('fade-out');
-                        setTimeout(() => {
-                            dialogImage.src = 'asset/css/png/slide-dialogo5.png';
-                            dialogImage.classList.remove('fade-out');
-                            dialogImage.classList.add('fade-in');
-                        }, 500);
-                        setTimeout(() => {
-                            dialogImage.classList.remove('fade-in');
-                        }, 1000);
-                    }
-
-                    if (currentMessageIndex === 18) {
-                        dialogImage.classList.add('fade-out');
-                        setTimeout(() => {
-                            dialogImage.src = 'asset/css/png/slide-dialogo6.png';
-                            dialogImage.classList.remove('fade-out');
-                            dialogImage.classList.add('fade-in');
-                        }, 500);
-                        setTimeout(() => {
-                            dialogImage.classList.remove('fade-in');
-                        }, 1000);
-                    }
-
-
-
-
-                    currentMessageIndex++;
-                    isAnimating = false;
-
-                    if (currentMessageIndex === messages.length) {
-                        console.log("Final message displayed");
-                        setTimeout(revealBackgroundAndPromptUser, 2000);
-                        console.log("Final message displayed");
-                        setTimeout(revealBackgroundAndPromptUser, 2000);
-                    }
-                }, 500);
-            });
         });
     }
 
-    cursor.addEventListener('click', handleInteraction);
-
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter' && !userInputBox.contains(document.activeElement)) {
-            handleInteraction();
+    function scrollChatToBottom() {
+        if (chatBox) {
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
     }
 
-    cursor.addEventListener('click', handleInteraction);
+    function handleStartClick() {
+        landingPage.style.display = 'none';
+        if (footer) {
+            footer.style.display = 'none';
+        }
+        chatbotSection.style.display = 'block';
+
+        // Explicitly switch from menu to game audio
+        switchAudio(gameAudio);
+        
+        if (fadeOverlay) {
+            fadeOverlay.style.background = 'none';
+            fadeOverlay.style.backgroundColor = 'transparent';
+        }
+
+        if (currentMessageIndex === 0) {
+            handleInteraction({ target: document.body });
+        }
+    }
+
+    // Event Listeners
+    if (soundButton) {
+        soundButton.addEventListener('click', toggleAudio);
+    }
+
+    if (volumeSlider) {
+        volumeSlider.addEventListener('input', (e) => {
+            const volume = parseFloat(e.target.value);
+            currentAudio.volume = volume; // Only adjust current audio volume
+        });
+    }
+
+    if (startButton) {
+        startButton.addEventListener('click', handleStartClick);
+    }
+
+    if (tutorialButton) {
+        tutorialButton.addEventListener('click', function() {
+            // Add tutorial functionality if needed
+        });
+    }
+
+    document.addEventListener('click', function(event) {
+        if (canClick) handleInteraction(event);
+    });
 
     document.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter' && !userInputBox.contains(document.activeElement)) {
-            handleInteraction();
+        if (event.key === 'Enter' && !event.target.closest('#userInputBox') && canClick) {
+            handleInteraction(event);
         }
     });
 });
-
-function scrollChatToBottom() {
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-function scrollChatToBottom() {
-    chatBox.scrollTop = chatBox.scrollHeight;
-}

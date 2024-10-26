@@ -3,8 +3,9 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from openai import OpenAI
 
+
 # Initialize the OpenAI client
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))  # Ensure your API key is properly set
+client = OpenAI(api_key="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")  # Ensure your API key is properly set
 
 # Ensure Flask points to the right directories (for templates and static files like CSS)
 app = Flask(__name__, 
@@ -22,7 +23,6 @@ def index():
 def ask():
     data = request.json
     user_input = data.get("message")
-
     try:
         # Use the correct API method with `client.chat.completions.create`
         response = client.chat.completions.create(
@@ -53,5 +53,4 @@ def ask():
         return jsonify({"response": f"Error: {str(e)}"})
 
 if __name__ == "__main__":
-    # Run Flask on port 5000 or the environment's port
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
+    app.run(debug=True, host="0.0.0.0", port=int(os.getenv("PORT", 5025)))
