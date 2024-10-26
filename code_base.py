@@ -5,7 +5,6 @@ from openai import OpenAI
 
 
 # Initialize the OpenAI client
-client = OpenAI(api_key="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")  # Ensure your API key is properly set
 
 # Ensure Flask points to the right directories (for templates and static files like CSS)
 app = Flask(__name__, 
