@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from openai import OpenAI
 
+app = ("ciao")
 
 # Initialize the OpenAI client
 
