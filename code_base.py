@@ -2,10 +2,16 @@ import os
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from openai import OpenAI
+from dotenv import load_dotenv
+
 
 app = ("ciao")
 
 # Initialize the OpenAI client
+
+load_dotenv()
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))  # Ensure your API key is properly set
 
 # Ensure Flask points to the right directories (for templates and static files like CSS)
 app = Flask(__name__, 
