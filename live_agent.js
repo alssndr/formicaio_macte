@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
         "\"It doesn't matter. I'm here to talk about what's happening.\"",
         "\"The machines getting smarter, the work piling up, the pressure building.\"",
         "\"Many are not even sure anymore of what work truly is.\"",
-        "\"I'm sent from Formicaio to intervene in this ambiguity.\"",
+        "\"I'm sent from Formicaio to intervene in this contradiction.\"",
         "\"Speaking with people of your time is precious for us. Change is still possible.\"",
         "\"But my neural connection is unstable, and I can't stay on forever.\"",
         "\"Think carefully about what you want to ask.\"",
